@@ -1,8 +1,14 @@
 import { Application, Request, Response } from "express";
 import { Product, ProductsTable } from "../models/product";
+import { verifyToken } from "../utils/token";
+
+// ************************
+// PRODUCTS HANDLERS
+// ************************
 
 const productsTable = new ProductsTable();
 
+// INDEX
 const index = async (req: Request, res: Response) => {
   try{
     const result = await productsTable.index();
@@ -12,6 +18,7 @@ const index = async (req: Request, res: Response) => {
   }
 }
 
+// SHOW
 const show = async (req: Request, res: Response) => {
   const id = req.body.id;
   try{
@@ -22,7 +29,18 @@ const show = async (req: Request, res: Response) => {
   }
 }
 
+// CREATE
 const create = async (req: Request, res: Response) => {
+
+  // verify token
+  const token = req.body.token;
+  const isVerified = verifyToken(token);
+  if(!isVerified){
+    res.status(401).json(`Not authorized`)
+    return
+  }
+
+  // response
   const product: Product = {
     name:req.body.name,
     price:req.body.price,
@@ -36,6 +54,7 @@ const create = async (req: Request, res: Response) => {
   }
 }
 
+// DELETE
 const destroy = async (req: Request, res: Response) => {
   const id = req.body.id;
   try{
@@ -46,6 +65,10 @@ const destroy = async (req: Request, res: Response) => {
   }
 }
 
+
+// *******************************
+// PRODUCTS ROUTES
+// *******************************
 
 export const product_routes = (app: Application) => {
   app.get('/products',index);

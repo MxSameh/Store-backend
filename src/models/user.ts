@@ -1,4 +1,5 @@
 import db from "../database"
+import { compare, hash } from "../utils/hash";
 
 export type User = {
   id?: string;
@@ -29,7 +30,6 @@ export class UsersTable{
       const result = await conn.query(sql,[id])
       return result.rows[0] // return user (first element of the array)
     }catch(err){
-      console.log(err);
       throw new Error(`unable to get user ${id} : ${err}`)
     }
   }
@@ -37,13 +37,13 @@ export class UsersTable{
   // CREATE A NEW USER
   async create(user: User): Promise<User> {
     const {firstname,lastname,password} = user;
+    const hashedPassword = hash(password);
     try{
       const conn = await db.connect();
       const sql = 'INSERT INTO users (firstname, lastname, password) VALUES ($1,$2,$3) RETURNING *'
-      const result = await conn.query(sql,[firstname, lastname, password])
+      const result = await conn.query(sql,[firstname, lastname, hashedPassword])
       return result.rows[0] // return user (first element of the array)
     }catch(err){
-      console.log(err);
       throw new Error(`unable to create user : ${err}`)
     }
   }
@@ -56,9 +56,24 @@ export class UsersTable{
       const result = await conn.query(sql,[id]);
       return result.rows[0] // return user (first element of the array)
     }catch(err){
-      console.log(err);
       throw new Error(`unable to delete user : ${err}`)
     }
+  }
+
+  // AUTHENTICATE
+  async authenticate (id: string, password: string) : Promise <User | null> {
+    const conn = await db.connect();
+    const sql = 'SELECT * FROM users WHERE id = ($1)'
+    const result = await conn.query(sql, [id]);
+
+    if(result.rows.length){
+      const user = result.rows[0];
+      const isVerified = compare(password, user.password)
+      if(isVerified) 
+        return user;
+    }
+
+    return null
   }
 
 }

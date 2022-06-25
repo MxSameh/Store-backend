@@ -1,6 +1,11 @@
 import { Application, Request, Response } from "express";
 import { Order, OrdersTable } from "../models/order";
 
+
+// ************************
+// USER HANDLERS
+// ************************
+
 const ordersTable = new OrdersTable();
 
 // INDEX
@@ -15,9 +20,9 @@ const index = async( req: Request, res:Response ) => {
 
 // SHOW
 const show = async(req: Request, res: Response) => {
-  const id = req.body.id
+  const userId = req.params.userId;
   try{
-    const result = await ordersTable.show(id);
+    const result = await ordersTable.show(userId);
     res.json(result);
   }catch(err){
     res.status(404).json(err);
@@ -43,13 +48,17 @@ const destroy = async (req: Request, res: Response) => {
   const id = req.body.id;
   try{
     const result = await ordersTable.delete(id);
-    console.log('heyll');
-    
     res.json(result);
   }catch(err){
     res.status(404).json(err);
   }
 }
+
+
+
+// *******************************
+// USERS ROUTES
+// *******************************
 
 export const order_routes = (app: Application) => {
   app.get('/orders', index);

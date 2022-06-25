@@ -22,17 +22,17 @@ export class OrdersTable{
     }
   }
 
-  // GET A SINGLE ORDER
-  async show(id: string) : Promise <Order | null> {
+  // GET A SINGLE USER ORDERS
+  async show(userId: string) : Promise <Order | null> {
     try{
       const conn = await db.connect();
       const sql = 'SELECT * FROM orders WHERE id = ($1)';
-      const result = await conn.query(sql, [id]);
+      const result = await conn.query(sql, [userId]);
 
       conn.release();
       return result.rows[0];
     }catch(err){
-      throw new Error(`unable to get order ${id} : ${err}`)
+      throw new Error(`unable to get orders of user ${userId} : ${err}`)
     }
   }
 
