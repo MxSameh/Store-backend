@@ -1,6 +1,7 @@
 import { Application, Request, Response } from "express";
 import { UsersTable, User} from "../models/user";
 import { createToken, verifyToken } from "../utils/token";
+import { verifyAuthToken } from "../middlewares/verifyAuthToken";
 
 // ************************
 // USER HANDLERS
@@ -10,15 +11,6 @@ const usersTable = new UsersTable();
 // INDEX
 const index = async(req: Request, res: Response) => {
 
-  // verfiy token
-  const token = req.body.token;
-  const isVerified = verifyToken(token);
-  if(!isVerified){
-    res.status(401).json(`Not authorized`)
-    return
-  }
-
-  // response
   try{
     const users = await usersTable.index();
     res.json(users);
@@ -30,16 +22,7 @@ const index = async(req: Request, res: Response) => {
 // SHOW
 const show = async(req: Request, res: Response) => {
 
-  // verfiy token
-  const token = req.body.token;
-  const isVerified = verifyToken(token);
-  if(!isVerified){
-    res.status(401).json(`Not authorized`)
-    return
-  }
-
-  // response
-  const id = req.body.id;
+  const id = req.params.id;
   try{
     const result = await usersTable.show(id);
     res.json(result);
@@ -51,15 +34,6 @@ const show = async(req: Request, res: Response) => {
 // CREATE 
 const create = async(req: Request, res: Response) => {
 
-  // verfiy token
-  const token = req.body.token;
-  const isVerified = verifyToken(token);
-  if(!isVerified){
-    res.status(401).json(`Not authorized`)
-    return
-  }
-
-  // response
   const user : User = {
     firstname : req.body.firstname,
     lastname : req.body.lastname,
@@ -76,7 +50,7 @@ const create = async(req: Request, res: Response) => {
 
 // DELETE
 const destroy = async(req: Request, res: Response) : Promise <void> =>  {
-  const id = req.body.id;
+  const id = req.params.id;
   try{
     const result = await usersTable.delete(id);
     res.json(result);
@@ -99,15 +73,18 @@ const authenticate = async(req: Request, res: Response) : Promise <void> => {
   }
 }
 
+
+
+
 // *******************************
 // USERS ROUTES
 // *******************************
 
 export const user_routes = (app: Application) => {
-  app.get('/users',index);
-  app.get('/users/:id',show);
-  app.post('/users',create)
-  app.delete('/users',destroy)
+  app.get('/users',verifyAuthToken, index);
+  app.get('/users/:id',verifyAuthToken, show);
+  app.post('/users',verifyAuthToken, create)
+  app.delete('/users/:id',destroy)
   app.post('/users/authenticate',authenticate)
 }
 

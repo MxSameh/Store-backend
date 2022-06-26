@@ -26,7 +26,7 @@ export class OrdersTable{
   async show(userId: string) : Promise <Order | null> {
     try{
       const conn = await db.connect();
-      const sql = 'SELECT * FROM orders WHERE id = ($1)';
+      const sql = 'SELECT * FROM orders WHERE user_id = ($1)';
       const result = await conn.query(sql, [userId]);
 
       conn.release();
@@ -63,4 +63,20 @@ export class OrdersTable{
       throw new Error(`unabe to delete order ${id} : ${err}`)
     }
   }
+
+  // ADD PRODUCT TO AN ORDER
+  async addProduct(quantity: number, orderId: string, productId: string) : Promise <Order> {
+    try{
+      const conn = await db.connect();
+      const sql = 'INSERT INTO order_products (quantity, order_id, product_id) VALUES ($1,$2,$3) RETURNING *';
+      const result = await conn.query(sql, [quantity, orderId, productId]);
+      const order = result.rows[0];
+
+      conn.release();
+      return order
+    }catch(err){
+      throw new Error(`couldn't add product to the order fail: ${err}`);
+    }
+  }
+
 }

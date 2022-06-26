@@ -4,7 +4,7 @@ export type Product = {
   id?: string;
   name: string;
   price: string;
-  category: string;
+  category?: string;
 }
 
 export class ProductsTable{

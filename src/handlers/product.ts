@@ -1,4 +1,5 @@
 import { Application, Request, Response } from "express";
+import { verifyAuthToken } from "../middlewares/verifyAuthToken";
 import { Product, ProductsTable } from "../models/product";
 import { verifyToken } from "../utils/token";
 
@@ -32,15 +33,6 @@ const show = async (req: Request, res: Response) => {
 // CREATE
 const create = async (req: Request, res: Response) => {
 
-  // verify token
-  const token = req.body.token;
-  const isVerified = verifyToken(token);
-  if(!isVerified){
-    res.status(401).json(`Not authorized`)
-    return
-  }
-
-  // response
   const product: Product = {
     name:req.body.name,
     price:req.body.price,
@@ -56,7 +48,7 @@ const create = async (req: Request, res: Response) => {
 
 // DELETE
 const destroy = async (req: Request, res: Response) => {
-  const id = req.body.id;
+  const id = req.params.id;
   try{
     const result = await productsTable.delete(id)
     res.json(result);
@@ -72,7 +64,7 @@ const destroy = async (req: Request, res: Response) => {
 
 export const product_routes = (app: Application) => {
   app.get('/products',index);
-  app.get('/products/:id',show);
-  app.post('/products',create);
+  app.get('/products/:id', show);
+  app.post('/products', verifyAuthToken, create);
   app.delete('/products/:id',destroy);
 }

@@ -40,8 +40,8 @@ export class UsersTable{
     const hashedPassword = hash(password);
     try{
       const conn = await db.connect();
-      const sql = 'INSERT INTO users (firstname, lastname, password) VALUES ($1,$2,$3) RETURNING *'
-      const result = await conn.query(sql,[firstname, lastname, hashedPassword])
+      const sql = 'INSERT INTO users (firstname, lastname, password) VALUES ($1,$2,$3) RETURNING *';
+      const result = await conn.query(sql,[firstname, lastname, hashedPassword]);
       return result.rows[0] // return user (first element of the array)
     }catch(err){
       throw new Error(`unable to create user : ${err}`)
