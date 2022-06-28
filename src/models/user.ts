@@ -2,7 +2,7 @@ import db from "../database"
 import { compare, hash } from "../utils/hash";
 
 export type User = {
-  id?: string;
+  id?: number;
   firstname: string;
   lastname: string;
   password: string;

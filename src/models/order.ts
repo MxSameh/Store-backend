@@ -1,7 +1,7 @@
 import db from '../database'
 
 export type Order = {
-  id?: string;
+  id?: number;
   userId: string;
   status: string;
 }

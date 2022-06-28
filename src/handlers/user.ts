@@ -1,6 +1,6 @@
 import { Application, Request, Response } from "express";
 import { UsersTable, User} from "../models/user";
-import { createToken, verifyToken } from "../utils/token";
+import { createToken } from "../utils/token";
 import { verifyAuthToken } from "../middlewares/verifyAuthToken";
 
 // ************************

@@ -1,9 +1,9 @@
 import db from "../database"
 
 export type Product = {
-  id?: string;
+  id?: number;
   name: string;
-  price: string;
+  price: number;
   category?: string;
 }
 

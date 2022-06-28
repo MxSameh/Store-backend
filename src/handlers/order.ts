@@ -1,7 +1,6 @@
 import { Application, Request, Response } from "express";
 import { verifyAuthToken } from "../middlewares/verifyAuthToken";
 import { Order, OrdersTable } from "../models/order";
-import { verifyToken } from "../utils/token";
 
 
 // ************************

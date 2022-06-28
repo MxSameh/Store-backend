@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && ENV=test db-migrate --env test up && jasmine && db-migrate db:drop test"
+    "test": "tsc && ENV=test db-migrate --env test up && jasmine && db-migrate --env test reset",
+    "start": "nodemon src/server.ts"
   },
   "keywords": [],
   "author": "",
