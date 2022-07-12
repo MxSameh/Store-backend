@@ -20,3 +20,5 @@ product_routes(app);
 app.listen(port,()=>{
   console.log(`Server started: http://localhost:${port}`);
 })
+
+export default app;

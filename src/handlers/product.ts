@@ -12,7 +12,7 @@ const productsTable = new ProductsTable();
 const index = async (req: Request, res: Response) => {
   try{
     const result = await productsTable.index();
-    res.json(result);
+    res.status(200).json(result);
   }catch(err){
     res.status(404).json(err);
   }
