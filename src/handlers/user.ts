@@ -25,7 +25,8 @@ const show = async(req: Request, res: Response) => {
   const id = req.params.id;
   try{
     const result = await usersTable.show(id);
-    res.json(result);
+    if(result) res.json(result);
+    else res.json('user not found')
   }catch(err){
     res.status(404).json(err);
   }
