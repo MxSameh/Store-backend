@@ -61,6 +61,6 @@ const product_routes = (app) => {
     app.get('/products', index);
     app.get('/products/:id', show);
     app.post('/products', verifyAuthToken_1.verifyAuthToken, create);
-    app.delete('/products/:id', destroy);
+    app.delete('/products/:id', verifyAuthToken_1.verifyAuthToken, destroy);
 };
 exports.product_routes = product_routes;

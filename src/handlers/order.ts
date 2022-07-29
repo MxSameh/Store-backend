@@ -77,9 +77,9 @@ const addProduct = async(req: Request, res: Response): Promise <void> => {
 // *******************************
 
 export const order_routes = (app: Application) => {
-  app.get('/orders', index);
+  app.get('/orders',verifyAuthToken, index);
   app.get('/orders/:userId', verifyAuthToken, show);
-  app.post('/orders', create);
-  app.delete('/orders/:id', destroy);
-  app.post('/orders/:id/products',addProduct)
+  app.post('/orders', verifyAuthToken,create);
+  app.delete('/orders/:id', verifyAuthToken,destroy);
+  app.post('/orders/:id/products',verifyAuthToken,addProduct)
 }

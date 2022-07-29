@@ -78,8 +78,8 @@ const authenticate = async (req, res) => {
 const user_routes = (app) => {
     app.get('/users', verifyAuthToken_1.verifyAuthToken, index);
     app.get('/users/:id', verifyAuthToken_1.verifyAuthToken, show);
-    app.post('/users', verifyAuthToken_1.verifyAuthToken, create);
-    app.delete('/users/:id', destroy);
+    app.post('/users', create);
+    app.delete('/users/:id', verifyAuthToken_1.verifyAuthToken, destroy);
     app.post('/users/authenticate', authenticate);
 };
 exports.user_routes = user_routes;

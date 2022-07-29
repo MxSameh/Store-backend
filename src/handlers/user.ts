@@ -84,8 +84,8 @@ const authenticate = async(req: Request, res: Response) : Promise <void> => {
 export const user_routes = (app: Application) => {
   app.get('/users',verifyAuthToken, index);
   app.get('/users/:id',verifyAuthToken, show);
-  app.post('/users',verifyAuthToken, create)
-  app.delete('/users/:id',destroy)
+  app.post('/users', create)
+  app.delete('/users/:id',verifyAuthToken,destroy)
   app.post('/users/authenticate',authenticate)
 }
 

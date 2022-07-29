@@ -69,10 +69,10 @@ const addProduct = async (req, res) => {
 // USERS ROUTES
 // *******************************
 const order_routes = (app) => {
-    app.get('/orders', index);
+    app.get('/orders', verifyAuthToken_1.verifyAuthToken, index);
     app.get('/orders/:userId', verifyAuthToken_1.verifyAuthToken, show);
-    app.post('/orders', create);
-    app.delete('/orders/:id', destroy);
-    app.post('/orders/:id/products', addProduct);
+    app.post('/orders', verifyAuthToken_1.verifyAuthToken, create);
+    app.delete('/orders/:id', verifyAuthToken_1.verifyAuthToken, destroy);
+    app.post('/orders/:id/products', verifyAuthToken_1.verifyAuthToken, addProduct);
 };
 exports.order_routes = order_routes;
