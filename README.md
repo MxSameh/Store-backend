@@ -3,6 +3,29 @@
 This is a project from udacity inwhich we build a complete backend with a server and a database and connect them to each other to have a complete backend for a store. 
 
 ---
+<br>
+
+## SETUP AN .env File
+You must create .env file which contains all of the following variables and you should give them value based on you workspace
+
+- POSTGRES_HOST
+- POSTGRES_DB
+- POSTGRES_TEST_DB 
+- POSTGRES_USER
+- POSTGRES_PASSWORD 
+- ENV
+- SALT
+- PEPER
+- TOKEN_SECRET
+- PORT
+
+Example:
+<br>
+PORT = 3000
+
+---
+<br>
+
 ## INSTALLION STEPS
 1- Create store database
 ```sql
