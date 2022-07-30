@@ -47,4 +47,16 @@ describe('Users table: ', () => {
     expect(result.lastname).toEqual('sameh');
   })
 
+  it('authenticate method should return the user',async () => {
+    const result = await usersTable.authenticate('1','pass123')
+    
+  })
+  
+  it('delete method should delete a user',async () => {
+    const result = await usersTable.delete('1') as User;
+    expect(result.id).toEqual(1);
+    expect(result.firstname).toEqual('mohamed');
+  })
+
+
 })

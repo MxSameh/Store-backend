@@ -51,4 +51,11 @@ describe('Products table: ', () => {
     expect(result.category).toEqual('drink');
   })
 
+  it('delete method return a product', async () => {
+    const result = await productsTable.delete('1');
+    
+    expect(result.id).toEqual(1);
+    expect(result.name).toEqual('pepsi');
+  })
+
 })
