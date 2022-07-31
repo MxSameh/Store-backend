@@ -49,6 +49,8 @@ cd store-backend
 ```bash
 npm run start
 ```
+The Server will start on port : 3000
+while the database is on port : 5432
 
 ## To run tests 
 ```bash

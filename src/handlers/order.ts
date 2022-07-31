@@ -26,7 +26,8 @@ const show = async(req: Request, res: Response) => {
   
   try{
     const result = await ordersTable.show(userId);
-    res.json(result);
+    if(result)  res.status(200).json(result);
+    else  res.status(404).json('no order with that id')
   }catch(err){
     res.status(404).json(err);
   }
@@ -40,7 +41,8 @@ const create = async(req: Request, res: Response) => {
   }
   try{
     const result = await ordersTable.create(order);
-    res.json(result);
+    if(result)  res.status(200).json(result);
+    else  res.status(404).json('failed to create order')
   }catch(err){
     res.status(404).json(err);
   }
@@ -48,7 +50,7 @@ const create = async(req: Request, res: Response) => {
 
 // DESTROY
 const destroy = async (req: Request, res: Response) => {
-  const id = req.body.id;
+  const id = req.params.id;
   try{
     const result = await ordersTable.delete(id);
     res.json(result);

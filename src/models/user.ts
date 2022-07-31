@@ -15,6 +15,8 @@ export class UsersTable{
       const conn = await db.connect();
       const sql = 'SELECT * FROM users'
       const result = await conn.query(sql)
+      conn.release();      
+
       return result.rows // return an array containing all users
     }catch(err){
       console.log(err);
@@ -29,8 +31,9 @@ export class UsersTable{
       const sql = 'SELECT * FROM users WHERE id = ($1)'
       const result = await conn.query(sql,[id])
       const user = result.rows[0];
+      conn.release();      
       
-      return result.rows[0] // return user (first element of the array)
+      return user
   }catch(err){
       throw new Error(`unable to get user ${id} : ${err}`)
     }
@@ -44,6 +47,8 @@ export class UsersTable{
       const conn = await db.connect();
       const sql = 'INSERT INTO users (firstname, lastname, password) VALUES ($1,$2,$3) RETURNING *';
       const result = await conn.query(sql,[firstname, lastname, hashedPassword]);
+      conn.release();
+
       return result.rows[0] // return user (first element of the array)
     }catch(err){
       throw new Error(`unable to create user : ${err}`)
@@ -56,6 +61,8 @@ export class UsersTable{
       const conn = await db.connect();
       const sql = 'DELETE FROM users WHERE id = ($1) RETURNING *';
       const result = await conn.query(sql,[id]);
+      conn.release();
+
       return result.rows[0] // return user (first element of the array)
     }catch(err){
       throw new Error(`unable to delete user : ${err}`)
@@ -67,6 +74,7 @@ export class UsersTable{
     const conn = await db.connect();
     const sql = 'SELECT * FROM users WHERE id = ($1)'
     const result = await conn.query(sql, [id]);
+    conn.release();
 
     if(result.rows.length){
       const user = result.rows[0];

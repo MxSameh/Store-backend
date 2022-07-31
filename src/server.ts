@@ -3,9 +3,12 @@ import express,{Request,Response} from 'express';
 import { order_routes } from './handlers/order';
 import { product_routes } from './handlers/product';
 import { user_routes } from './handlers/user';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 4000
 
 app.use(bodyParser.json())
 

@@ -45,6 +45,14 @@ CREATE TABLE orders(
   status VARCHAR(64),
   user_id bigint REFERENCES users(id) ON DELETE CASCADE
 );
+
+- order_products
+CREATE TABLE order_products(
+  id SERIAL PRIMARY KEY,
+  quantity INTEGER,
+  order_id bigint REFERENCES orders(id) ON DELETE CASCADE, 
+  product_id bigint REFERENCES products(id) ON DELETE CASCADE
+)
 ```
 
 ## Data Models
@@ -65,4 +73,11 @@ Order
 - id: number
 - status: string
 - user_id: number
+
+Order Products
+id: number
+quantity: number
+order_id: number
+product_id: number
+
 ```

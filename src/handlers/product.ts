@@ -20,10 +20,14 @@ const index = async (req: Request, res: Response) => {
 
 // SHOW
 const show = async (req: Request, res: Response) => {
-  const id = req.body.id;
+  const id = req.params.id;
   try{
     const result = await productsTable.show(id)
-    res.json(result);
+    if(result){
+      res.status(200).json(result);
+    }else{
+      res.status(404).json('product not found')
+    }
   }catch(err){
     res.status(404).json(err);
   }
